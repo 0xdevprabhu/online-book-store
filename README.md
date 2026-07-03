@@ -55,7 +55,14 @@ GOOGLE_BOOKS_API_KEY=your_google_api_key_here
 ```
 
 ### 4. Database Setup & Seeding
-Generate application key, run migrations, and seed default test database records (including the default admin user credentials):
+Create your local database first:
+- **MySQL**: Create an empty database named `online_book_store` in your database manager (e.g. phpMyAdmin, TablePlus).
+- **SQLite**: Set `DB_CONNECTION=sqlite` in `.env` and create an empty file inside the project directory:
+  ```bash
+  touch database/database.sqlite
+  ```
+
+Once your database is created, generate the application key, run migrations, and seed default test database records (including the admin credentials):
 ```bash
 php artisan key:generate
 php artisan migrate --seed
