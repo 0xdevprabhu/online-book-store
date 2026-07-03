@@ -66,6 +66,7 @@ function initializeModalControls() {
 
     const titleInput = document.getElementById('title');
     const authorInput = document.getElementById('author');
+    const categoryInput = document.getElementById('category_name');
     const priceInput = document.getElementById('price');
     const availableSelect = document.getElementById('is_available');
     const descriptionTextarea = document.getElementById('description');
@@ -111,6 +112,7 @@ function initializeModalControls() {
 
         if (titleInput) titleInput.value = '';
         if (authorInput) authorInput.value = '';
+        if (categoryInput) categoryInput.value = '';
         if (priceInput) priceInput.value = '';
         if (availableSelect) availableSelect.value = '1';
         if (descriptionTextarea) {
@@ -135,6 +137,7 @@ function initializeModalControls() {
         const bookId = editBtn.getAttribute('data-id');
         const bookTitle = editBtn.getAttribute('data-title');
         const bookAuthor = editBtn.getAttribute('data-author');
+        const bookCategory = editBtn.getAttribute('data-category');
         const bookPrice = editBtn.getAttribute('data-price');
         const bookAvailable = editBtn.getAttribute('data-available');
         const bookDescription = editBtn.getAttribute('data-description');
@@ -149,6 +152,7 @@ function initializeModalControls() {
 
         if (titleInput) titleInput.value = bookTitle;
         if (authorInput) authorInput.value = bookAuthor;
+        if (categoryInput) categoryInput.value = bookCategory || '';
         if (priceInput) priceInput.value = bookPrice;
         if (availableSelect) availableSelect.value = bookAvailable;
         if (descriptionTextarea) {
@@ -394,6 +398,7 @@ function clearInputError(input) {
 function initializeGoogleBooksAutocomplete() {
     const titleInput = document.querySelector('#add-book-modal #title');
     const authorInput = document.querySelector('#add-book-modal #author');
+    const categoryInput = document.querySelector('#add-book-modal #category_name');
     const descriptionTextarea = document.querySelector('#add-book-modal #description');
     const suggestionsDropdown = document.getElementById('suggestions-list');
 
@@ -480,7 +485,8 @@ function initializeGoogleBooksAutocomplete() {
                     volumeInfo: {
                         title: book.title,
                         authors: [book.author],
-                        description: book.description
+                        description: book.description,
+                        categories: book.category ? [book.category] : []
                     }
                 };
             });
@@ -522,6 +528,11 @@ function initializeGoogleBooksAutocomplete() {
             item.addEventListener('click', () => {
                 titleInput.value = info.title;
                 if (authorInput) authorInput.value = authors;
+                
+                if (categoryInput) {
+                    const firstCategory = info.categories && info.categories.length > 0 ? info.categories[0] : '';
+                    categoryInput.value = firstCategory;
+                }
                 
                 if (descriptionTextarea) {
                     descriptionTextarea.value = info.description || '';

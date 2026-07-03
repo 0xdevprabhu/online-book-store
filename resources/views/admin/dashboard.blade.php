@@ -194,6 +194,7 @@
                                                         data-author="{{ $book->author }}"
                                                         data-price="{{ $book->price }}"
                                                         data-available="{{ $book->is_available }}"
+                                                        data-category="{{ $book->category->name ?? '' }}"
                                                         data-description="{{ $book->description }}">
                                                     <i class="fa-solid fa-pen-to-square"></i> Edit
                                                 </button>
@@ -248,6 +249,14 @@
                     <label for="author">Author *</label>
                     <input type="text" id="author" name="author" required value="{{ old('author') }}">
                     @error('author')
+                        <span class="validation-error">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="category_name">Category</label>
+                    <input type="text" id="category_name" name="category_name" placeholder="e.g. Fiction, Technology..." value="{{ old('category_name') }}">
+                    @error('category_name')
                         <span class="validation-error">{{ $message }}</span>
                     @enderror
                 </div>
@@ -328,13 +337,14 @@
         window.googleBooksApiKey = "{{ config('services.google.books_key') }}";
 
         // Cache existing book details as local catalog suggestions for rate limit / offline fallback
-        window.localBooksCatalog = @json($books->map(function($book) {
+        window.localBooksCatalog = {!! $books->map(function($book) {
             return [
                 'title' => $book->title,
                 'author' => $book->author,
-                'description' => $book->description ?? ''
+                'description' => $book->description ?? '',
+                'category' => $book->category->name ?? ''
             ];
-        }));
+        })->toJson() !!};
     </script>
     <script src="{{ asset('js/admin.js') }}"></script>
 @endpush

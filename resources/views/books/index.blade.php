@@ -18,6 +18,14 @@
                 value="{{ request('search') }}"
                 class="search-input"
             >
+            <select name="category" class="category-select" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                @foreach($categories as $cat)
+                    <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                        {{ $cat->name }}
+                    </option>
+                @endforeach
+            </select>
             <button type="submit" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
         </form>
     </section>
@@ -33,6 +41,11 @@
                         <div class="book-info">
                             <h3 class="book-title">{{ $book->title }}</h3>
                             <p class="book-author">By {{ $book->author }}</p>
+                            @if($book->category)
+                                <p class="book-category" style="font-size: 0.85rem; color: #3b82f6; margin-bottom: 0.5rem; font-weight: 500;">
+                                    <i class="fa-solid fa-tag"></i> {{ $book->category->name }}
+                                </p>
+                            @endif
                             <p class="book-price">₹{{ number_format($book->price, 2) }}</p>
                             
                             <!-- Check if the book is in stock -->

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -12,17 +13,22 @@ class BookController extends Controller
     {
         $query = Book::query();
 
-        // If the user has typed anything in the search box
         if ($request->has('search') && $request->search != '') {
             $searchTerm = $request->search;
-            $query->where('title', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('author', 'LIKE', "%{$searchTerm}%");
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('author', 'LIKE', "%{$searchTerm}%");
+            });
         }
 
-        // Displays recently added books first
-        $books = $query->latest()->get();
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category_id', $request->category);
+        }
 
-        return view('books.index', compact('books'));
+        $books = $query->latest()->get();
+        $categories = Category::whereHas('books')->get();
+
+        return view('books.index', compact('books', 'categories'));
     }
 
     // Displays details of a specific book (Details View)
@@ -30,7 +36,7 @@ class BookController extends Controller
     {
         // Shows 404 error if book does not exist
         $book = Book::with('category')->findOrFail($id);
-        
+
         return view('books.show', compact('book'));
     }
 }
