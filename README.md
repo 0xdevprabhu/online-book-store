@@ -68,6 +68,10 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 
+#### Default Admin Login:
+- **Email/Username**: `admin@example.com`
+- **Password**: `admin123`
+
 ### 5. Running the Application
 Start the PHP built-in server:
 ```bash
