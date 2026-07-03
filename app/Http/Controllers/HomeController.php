@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
@@ -16,12 +15,12 @@ class HomeController extends Controller
             // Weather API Integration (e.g. OpenWeatherMap API)
             // Note: Your actual API Key should be set in the .env file
             $apiKey = config('services.weather.key', 'YOUR_API_KEY');
-            $city = "Chennai";
-            
-            $response = Http::get("https://api.openweathermap.org/data/2.5/weather", [
+            $city = 'Chennai';
+
+            $response = Http::get('https://api.openweathermap.org/data/2.5/weather', [
                 'q' => $city,
                 'appid' => $apiKey,
-                'units' => 'metric'
+                'units' => 'metric',
             ]);
 
             if ($response->successful()) {
@@ -29,10 +28,12 @@ class HomeController extends Controller
             }
         } catch (\Exception $e) {
             // Log the error to prevent the page from crashing if the API fails
-            logger("Weather API Error: " . $e->getMessage());
+            logger('Weather API Error: '.$e->getMessage());
         }
 
+        $recentBooks = Book::latest()->take(4)->get();
+
         // Send data to Blade view
-        return view('index', compact('weatherData'));
+        return view('index', compact('weatherData', 'recentBooks'));
     }
 }

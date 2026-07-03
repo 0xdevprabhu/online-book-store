@@ -56,38 +56,26 @@
     <section class="api-data-section">
         <div class="section-header">
             <h2>Live Updates</h2>
-            <span class="live-indicator"><span class="pulse"></span> Active API Data</span>
+            <span class="live-indicator"><span class="pulse"></span> Recently Added</span>
         </div>
-        <div class="api-card">
-            @if(isset($weatherData))
-                <div class="weather-widget">
-                    <div class="weather-main">
-                        <span class="weather-icon"><i class="fa-solid fa-cloud-sun"></i></span>
-                        <div>
-                            <h3>{{ $weatherData['name'] ?? 'Chennai' }} Weather</h3>
-                            <p class="weather-temp">{{ isset($weatherData['main']['temp']) ? round($weatherData['main']['temp']) : 'N/A' }}°C</p>
+        <div class="recent-books-grid">
+            @if(isset($recentBooks) && $recentBooks->count() > 0)
+                @foreach($recentBooks as $book)
+                    <div class="recent-book-card">
+                        <div class="recent-book-cover">
+                            <i class="fa-solid fa-book"></i>
                         </div>
+                        <h3 class="recent-book-title" title="{{ $book->title }}">{{ $book->title }}</h3>
+                        <span class="recent-book-author">by {{ $book->author }}</span>
+                        <div class="recent-book-price">₹{{ number_format($book->price, 2) }}</div>
+                        <a href="{{ url('/books/' . $book->id) }}" class="btn-view-details">
+                            View Details <i class="fa-solid fa-circle-info"></i>
+                        </a>
                     </div>
-                    <div class="weather-details">
-                        <div class="detail-item">
-                            <span class="label">Condition</span>
-                            <span class="value">{{ ucfirst($weatherData['weather'][0]['description'] ?? 'clear sky') }}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="label">Humidity</span>
-                            <span class="value">{{ $weatherData['main']['humidity'] ?? 'N/A' }}%</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="label">Wind Speed</span>
-                            <span class="value">{{ $weatherData['wind']['speed'] ?? 'N/A' }} m/s</span>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             @else
-                <div class="recommendation-widget">
-                    <span class="widget-badge">API Recommendation</span>
-                    <h3>Featured Recommendation</h3>
-                    <p>Click the "Browse Books" button to see our hand-picked recommendation list.</p>
+                <div class="api-card" style="grid-column: span 4; text-align: center; color: var(--text-secondary);">
+                    <p>No books recently added to the store catalogue.</p>
                 </div>
             @endif
         </div>

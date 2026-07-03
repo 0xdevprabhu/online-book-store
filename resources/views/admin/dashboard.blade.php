@@ -42,19 +42,6 @@
 
     <!-- Right Content Section -->
     <main class="admin-main">
-        
-        <!-- Top Sub-Navbar hugging the Sidebar Corner -->
-        <div class="admin-top-navbar">
-            <h2 class="admin-top-title">Online Book Store Admin</h2>
-            <div class="admin-top-tabs">
-                <button type="button" class="admin-tab-btn active" data-target="dashboard-panel">
-                    <i class="fa-solid fa-chart-line"></i> Dashboard
-                </button>
-                <button type="button" class="admin-tab-btn" data-target="inventory-panel">
-                    <i class="fa-solid fa-book"></i> Books List
-                </button>
-            </div>
-        </div>
 
         @if(session('success'))
             <div class="success-alert">

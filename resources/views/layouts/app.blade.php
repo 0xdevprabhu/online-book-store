@@ -25,8 +25,25 @@
             @else
                 <a href="{{ url('/') }}" class="brand">Online Book Store</a>
             @endif
-            @if(!request()->is('admin*'))
-                <ul class="nav-links">
+            @if(request()->is('admin*') && !request()->is('admin/login'))
+                <button type="button" class="nav-toggle" id="admin-nav-toggle" aria-label="Toggle Admin Navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <ul class="nav-links" id="admin-nav-links">
+                    <li><button type="button" class="admin-nav-item active" data-target="dashboard-panel"><i class="fa-solid fa-chart-line"></i> Dashboard</button></li>
+                    <li><button type="button" class="admin-nav-item" data-target="inventory-panel"><i class="fa-solid fa-book"></i> Books List</button></li>
+                    <li>
+                        <form action="{{ url('/admin/logout') }}" method="POST" id="admin-logout-form-nav" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="admin-nav-logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            @elseif(!request()->is('admin*'))
+                <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <ul class="nav-links" id="nav-links">
                     <li><a href="{{ url('/') }}">Home</a></li>
                     <li><a href="{{ url('/books') }}">Books</a></li>
                 </ul>
