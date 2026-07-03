@@ -9,14 +9,15 @@ A clean, modern, and fully responsive Laravel web application for cataloging and
 ### Client Portal
 - **Home & Gallery**: Responsive layouts optimized for mobile, tablet, and desktop viewports.
 - **Live Search**: Instant client-side filters for browsing available bookstore records.
-- **Dynamic Widgets**: Weather lookup widget integrated into the main landing hero space.
+- **Live Updates**: Displays a grid of the 4 most recently added books, linking to their respective detail views.
 
 ### Admin Panel
 - **Protected Session Dashboard**: Secured with a custom middleware to redirect unauthenticated requests.
-- **Dashboard Overview**: Displays summary statistic counters (Total Books, In-Stock, Out of Stock, Total Value) and a listing of the 5 most recently added books.
-- **Dual-Mode CRUD Modal**: Single-overlay modal supporting both adding new records and editing existing entries dynamically without page redirects.
-- **Google Books Autocomplete API**: Type titles inside the creator modal to fetch details instantly (Title, Author, Description).
+- **Dashboard Overview**: Displays summary statistic counters (Total Books, In-Stock, Out of Stock, Total Value) and recently added items list.
+- **Dual-Mode CRUD Modal**: Single-overlay modal supporting both adding new records and editing existing entries dynamically. Features sticky headers/footers and vertical scrollbars on narrow screens.
+- **Google Books Autocomplete API**: Type titles inside the creator modal to fetch details instantly (Title, Author, Description). Supports API key configuration.
 - **Resilient Search Fallbacks**: Employs client-side 45s cooldown throttling and fallback lookup searches inside the local database if Google Books returns a `429 (Too Many Requests)` rate-limiting error or goes offline.
+- **Responsive Layout**: Hides redundant panels on mobile viewports and displays catalog tables as clean, stacked grid cards. Uses hamburger navigation toggles inside the top header.
 - **Custom Delete Overlays**: Replaced native browser alerts with custom modal alerts.
 
 ---
